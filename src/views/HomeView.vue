@@ -57,15 +57,6 @@ const getSearch = () => {
   axios.get('https://www.fastmock.site/mock/5903235a886ef1aa2f446afbe614596e/api/search')
 }
 
-// const getSearch = async() => {
-//   try {
-//     const response = await axios.get('https://www.fastmock.site/mock/5903235a886ef1aa2f446afbe614596e/api/search') 
-//     tableData.value = response.data
-//   } catch (error) {
-//     console.error('error',error) 
-//   }
-// }
-
 getSearch()
 const handleAdd = () => {
   title.value = '添加'
@@ -87,7 +78,7 @@ const handleSubmit = (formName) => {
       }
     }
   }
-  
+
   dialogVisible.value = false
 }
 
