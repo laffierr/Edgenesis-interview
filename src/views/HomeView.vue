@@ -8,12 +8,12 @@
       <el-table-column prop="date" label="Date" width="180" />
       <el-table-column prop="name" label="Name" width="180" />
       <el-table-column prop="address" label="Address" />
-      <el-table-column fixed="right" label="Operations" width="120">
+      <el-table-column fixed="right" label="Operations" width="150">
         <template #default="scope">
-          <el-button link type="primary" size="small" @click="handleEdit(scope.$index, scope.row)"
+          <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)"
             >编辑</el-button
           >
-          <el-button link type="primary" size="small" @click="handleDelete(scope.$index, scope.row)"
+          <el-button type="primary" size="small" @click="handleDelete(scope.$index, scope.row)"
             >删除</el-button
           >
         </template>
@@ -56,11 +56,56 @@ const active = ref('')
 const getSearch = () => {
   axios.get('https://www.fastmock.site/mock/5903235a886ef1aa2f446afbe614596e/api/search')
 }
+
+// const getSearch = async() => {
+//   try {
+//     const response = await axios.get('https://www.fastmock.site/mock/5903235a886ef1aa2f446afbe614596e/api/search') 
+//     tableData.value = response.data
+//   } catch (error) {
+//     console.error('error',error) 
+//   }
+// }
+
 getSearch()
-const handleAdd = () => {}
-const handleSubmit = (formName) => {}
-const handleEdit = (index, data) => {}
-const handleDelete = (index, data) => {}
+const handleAdd = () => {
+  title.value = '添加'
+  form.date = ''
+  form.name = ''
+  form.address = ''
+
+  dialogVisible.value = true
+}
+
+const handleSubmit = (formName) => {
+  if (formName === 'form') {
+    if (title.value === '添加') {
+      tableData.value.push({ ...form })
+    } else if (title.value === '编辑') {
+      const editedIndex = tableData.value.findIndex(item => item.date === form.date)
+      if (editedIndex !== -1) {
+        tableData.value[editedIndex] = { ...form }
+      }
+    }
+  }
+  
+  dialogVisible.value = false
+}
+
+const handleEdit = (index, data) => {
+  title.value = '编辑'
+  form.date = data.date
+  form.name = data.name
+  form.address = data.address
+  dialogVisible.value = true
+}
+
+const handleDelete = (index, data) => {
+  const deleteIndex = tableData.value.findIndex(item => item.date === data.date)
+  if (deleteIndex !== -1) {
+    tableData.value.splice(deleteIndex, 1)
+  }
+}
+
 </script>
 <style scoped>
 .add {
