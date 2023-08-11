@@ -5,11 +5,14 @@
     </div>
 
     <el-table :data="tableData" style="width: 100%">
+
       <el-table-column prop="date" label="Date" width="180" />
+
       <el-table-column prop="name" label="Name" width="180" />
       <el-table-column prop="address" label="Address" />
       <el-table-column fixed="right" label="Operations" width="150">
         <template #default="scope">
+
           <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)"
             >编辑</el-button
           >
@@ -53,8 +56,19 @@ const form = reactive({
 })
 const title = ref('添加')
 const active = ref('')
-const getSearch = () => {
-  axios.get('https://www.fastmock.site/mock/5903235a886ef1aa2f446afbe614596e/api/search')
+
+async function getSearch(params:type) {
+  try {
+    const res = await axios({
+      url:'https://www.fastmock.site/mock/5903235a886ef1aa2f446afbe614596e/api/search',
+      method:'get',
+    })
+    tableData.value = res.data.data
+    // console.log(res)
+  } catch (error){
+    console.dir(error)
+    
+  }
 }
 
 getSearch()
